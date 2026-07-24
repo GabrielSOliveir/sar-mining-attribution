@@ -1,0 +1,9 @@
+state,feature_set,n_features,f1,f1_std
+PARÁ,selected,23,0.8808,0.0064
+PARÁ,selected+std,29,0.8805,0.0054
+MATO GROSSO,selected,22,0.7415,0.0797
+MATO GROSSO,selected+std,28,0.7444,0.0814
+AMAZONAS,selected,18,0.5201,0.089
+AMAZONAS,selected+std,24,0.5498,0.0723
+RORAIMA,selected,15,0.4779,0.0909
+RORAIMA,selected+std,21,0.497,0.0922

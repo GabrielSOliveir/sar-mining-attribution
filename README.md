@@ -63,11 +63,14 @@ resolution 0.2° (~22 km). These match
 ## Quickstart
 
 ```bash
-# 1) Environment (Python 3.12)
+# 1) Environment — versions are PINNED in requirements.txt and reproduce the
+#    per-state results bit-for-bit (verified on CPython 3.9.6; also 3.11/3.12).
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 # macOS only: XGBoost needs the OpenMP runtime
 #   brew install libomp
+#   # ...or, with no Homebrew, point the loader at scikit-learn's bundled copy:
+#   export DYLD_FALLBACK_LIBRARY_PATH=$(python -c "import sklearn,os;print(os.path.join(os.path.dirname(sklearn.__file__),'.dylibs'))")
 # (or use conda:  conda env create -f environment.yml && conda activate sar-mining)
 
 # 2) Get the input data (~135 MB) — see data/README.md
@@ -82,6 +85,10 @@ python src/sase_spatial.py
 # 4) Reproduce the supporting analyses / figures
 python src/feature_analysis.py     # → results/feature_analysis/
 python figures/figure2_map.py      # → figures/figura2_mapa.{pdf,png}
+
+# 5) Reproduce the revision's reviewer-requested experiments
+python src/reviewer_experiments.py  # → results/reviewer_experiments/ (one CSV each)
+#    See results/reviewer_experiments/README.md for the experiment→reviewer→table map.
 ```
 
 Compare `results/sase_res020/sase_summary.csv` against

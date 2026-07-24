@@ -1,0 +1,5 @@
+setting,model,f1,auc,auc_pr,prec,rec
+matched,MT local,0.7415,0.9563,0.8154,0.6743,0.8395
+matched,PA+MT pooled,0.7537,0.9579,0.8068,0.7044,0.8203
+mismatched,AMAZONAS,0.4562,0.8223,0.4978,0.4145,0.5074
+mismatched,RORAIMA,0.397,0.8624,0.3169,0.3402,0.4765

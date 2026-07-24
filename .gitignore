@@ -13,9 +13,18 @@ data/dados_completos*.csv
 
 # ── Generated model outputs / figures (keep only results/reference_res020) ────
 results/sase_res020/
+results/sase_res010/
+results/sase_res030/
 results/feature_analysis/
 figures/*.png
 figures/*.pdf
+# temp run logs
+results/*.log
+results/**/*.log
+# pip freeze snapshot (requirements.txt is the pinned source of truth)
+.venv_freeze.txt
+# NOTE: results/reviewer_experiments/*.csv ARE committed (small summary tables
+# backing the revision's new tables); only their bulky per-run logs are ignored.
 
 # ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/

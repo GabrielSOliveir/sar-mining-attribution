@@ -1,0 +1,4 @@
+n_common_features,features,target,f1,auc
+11.0,diss_vv_mean;contrast_vv_mean;contrast_vv_p10;diss_vv_p10;diss_vv_p90;contrast_vv_p90;corr_vh_mean;corr_vh_p90;VV_stdDev;VH_stdDev;corr_vv_mean,,,
+,,AMAZONAS,0.4211,0.8333
+,,RORAIMA,0.3846,0.8601
