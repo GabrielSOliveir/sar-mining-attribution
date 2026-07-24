@@ -1,0 +1,31 @@
+# ── Large data ────────────────────────────────────────────────────────────────
+# The raw CSV (~135 MB) exceeds GitHub's 100 MB limit, so it is NOT committed.
+# The dataset ships as data/dados_concatenados.csv.zip (~49 MB) instead, which
+# pandas reads directly (see config.py). Keep the raw CSV ignored:
+data/*.csv
+!data/feature_separability.csv
+!data/morphometry_by_state.csv
+!data/resto_composition_by_state.csv
+!data/vpressao_por_estado_amazonia.csv
+data/_morphometry_raw.csv
+data/dados_completos*.csv
+# (the zipped dataset IS tracked: data/dados_concatenados.csv.zip)
+
+# ── Generated model outputs / figures (keep only results/reference_res020) ────
+results/sase_res020/
+results/feature_analysis/
+figures/*.png
+figures/*.pdf
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.DS_Store
+
+# ── Earth Engine / credentials (never commit) ─────────────────────────────────
+.config/earthengine/
+*credentials*

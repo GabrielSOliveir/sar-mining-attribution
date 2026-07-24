@@ -1,0 +1,23 @@
+STATE: AMAZONAS
+Split strategy : 70% train | 15% validation | 15% test
+N splits       : 5 (seeds 42–46)
+
+=== Aggregate metrics (test set, mean ± std) ===
+F1   : 0.5201 ± 0.0890
+AUC    : 0.8661 ± 0.0299
+AUC-PR : 0.5685 ± 0.0750
+Prec (mining) : 0.5172 ± 0.0962
+Rec  (mining) : 0.5377 ± 0.1132
+Prec (resto)  : 0.9641 ± 0.0056
+Rec  (resto)  : 0.9590 ± 0.0124
+
+=== Best split report (seed=45, τ*=0.80) ===
+
+                   precision    recall  f1-score   support
+
+        resto (0)     0.9582    0.9506    0.9544       627
+ilegal_mining (1)     0.6556    0.6941    0.6743        85
+
+         accuracy                         0.9199       712
+        macro avg     0.8069    0.8223    0.8143       712
+     weighted avg     0.9221    0.9199    0.9209       712

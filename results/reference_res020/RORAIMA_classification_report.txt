@@ -1,0 +1,23 @@
+STATE: RORAIMA
+Split strategy : 70% train | 15% validation | 15% test
+N splits       : 5 (seeds 42–46)
+
+=== Aggregate metrics (test set, mean ± std) ===
+F1   : 0.4779 ± 0.0909
+AUC    : 0.9039 ± 0.0213
+AUC-PR : 0.5061 ± 0.0974
+Prec (mining) : 0.4113 ± 0.0863
+Rec  (mining) : 0.5722 ± 0.0988
+Prec (resto)  : 0.9578 ± 0.0122
+Rec  (resto)  : 0.9199 ± 0.0270
+
+=== Best split report (seed=45, τ*=0.79) ===
+
+                   precision    recall  f1-score   support
+
+        resto (0)     0.9446    0.9077    0.9258       639
+ilegal_mining (1)     0.5426    0.6731    0.6009       104
+
+         accuracy                         0.8748       743
+        macro avg     0.7436    0.7904    0.7633       743
+     weighted avg     0.8884    0.8748    0.8803       743

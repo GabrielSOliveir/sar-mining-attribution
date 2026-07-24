@@ -1,0 +1,23 @@
+STATE: MATO GROSSO
+Split strategy : 70% train | 15% validation | 15% test
+N splits       : 5 (seeds 42–46)
+
+=== Aggregate metrics (test set, mean ± std) ===
+F1   : 0.7415 ± 0.0797
+AUC    : 0.9563 ± 0.0144
+AUC-PR : 0.8153 ± 0.0822
+Prec (mining) : 0.6743 ± 0.1231
+Rec  (mining) : 0.8395 ± 0.0606
+Prec (resto)  : 0.9817 ± 0.0093
+Rec  (resto)  : 0.9613 ± 0.0084
+
+=== Best split report (seed=44, τ*=0.76) ===
+
+                   precision    recall  f1-score   support
+
+        resto (0)     0.9695    0.9661    0.9678       560
+ilegal_mining (1)     0.8538    0.8672    0.8605       128
+
+         accuracy                         0.9477       688
+        macro avg     0.9117    0.9166    0.9141       688
+     weighted avg     0.9480    0.9477    0.9478       688

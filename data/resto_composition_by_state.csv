@@ -1,0 +1,21 @@
+ESTADO,classe_original,n,pct_within_resto
+PARÁ,agriculture,6542,99.9389
+PARÁ,aquaculture,0,0.0
+PARÁ,natural_cause,1,0.0153
+PARÁ,roads,0,0.0
+PARÁ,urban_expansion,3,0.0458
+AMAZONAS,agriculture,3964,99.7735
+AMAZONAS,aquaculture,1,0.0252
+AMAZONAS,natural_cause,0,0.0
+AMAZONAS,roads,1,0.0252
+AMAZONAS,urban_expansion,7,0.1762
+MATO GROSSO,agriculture,3891,99.3362
+MATO GROSSO,aquaculture,0,0.0
+MATO GROSSO,natural_cause,1,0.0255
+MATO GROSSO,roads,11,0.2808
+MATO GROSSO,urban_expansion,14,0.3574
+RORAIMA,agriculture,3951,99.8484
+RORAIMA,aquaculture,0,0.0
+RORAIMA,natural_cause,3,0.0758
+RORAIMA,roads,1,0.0253
+RORAIMA,urban_expansion,2,0.0505

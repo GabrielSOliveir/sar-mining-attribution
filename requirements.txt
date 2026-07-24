@@ -1,0 +1,23 @@
+# Core modeling + analysis (Python 3.12)
+numpy>=1.26
+pandas>=2.0
+scikit-learn>=1.4
+xgboost>=2.0
+imbalanced-learn>=0.12
+scipy>=1.11
+matplotlib>=3.8
+matplotlib-scalebar>=0.8
+seaborn>=0.13
+
+# Geospatial (spatial blocking, Figure 2 map)
+shapely>=2.0
+geopandas>=0.14
+geobr>=0.2
+
+# Google Earth Engine feature extraction (only for scripts under gee/ and src/data_prep/)
+earthengine-api>=0.1.400
+
+# macOS note: XGBoost needs the OpenMP runtime. Install it with:
+#     brew install libomp
+# If XGBoost still fails to load libomp, point the loader at scikit-learn's copy:
+#     export DYLD_FALLBACK_LIBRARY_PATH=$(python -c "import sklearn,os;print(os.path.join(os.path.dirname(sklearn.__file__),'.dylibs'))")

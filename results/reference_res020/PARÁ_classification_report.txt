@@ -1,0 +1,23 @@
+STATE: PARÁ
+Split strategy : 70% train | 15% validation | 15% test
+N splits       : 5 (seeds 42–46)
+
+=== Aggregate metrics (test set, mean ± std) ===
+F1   : 0.8808 ± 0.0064
+AUC    : 0.9425 ± 0.0044
+AUC-PR : 0.9419 ± 0.0041
+Prec (mining) : 0.8985 ± 0.0202
+Rec  (mining) : 0.8643 ± 0.0157
+Prec (resto)  : 0.8716 ± 0.0295
+Rec  (resto)  : 0.9053 ± 0.0190
+
+=== Best split report (seed=43, τ*=0.71) ===
+
+                   precision    recall  f1-score   support
+
+        resto (0)     0.8949    0.9389    0.9164      1179
+ilegal_mining (1)     0.9215    0.8667    0.8932       975
+
+         accuracy                         0.9062      2154
+        macro avg     0.9082    0.9028    0.9048      2154
+     weighted avg     0.9069    0.9062    0.9059      2154

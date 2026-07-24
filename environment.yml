@@ -1,0 +1,20 @@
+name: sar-mining
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy>=1.26
+  - pandas>=2.0
+  - scikit-learn>=1.4
+  - py-xgboost>=2.0        # conda build bundles libomp (no `brew install libomp` needed)
+  - imbalanced-learn>=0.12
+  - scipy>=1.11
+  - matplotlib>=3.8
+  - seaborn>=0.13
+  - shapely>=2.0
+  - geopandas>=0.14
+  - pip
+  - pip:
+      - matplotlib-scalebar>=0.8
+      - geobr>=0.2
+      - earthengine-api>=0.1.400

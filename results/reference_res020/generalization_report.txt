@@ -1,0 +1,55 @@
+CROSS-STATE GENERALIZATION REPORT
+Model: Pará best split → other states (no retraining)
+Note: threshold optimized on full target-state data (no val set available)
+============================================================
+
+AMAZONAS
+  Samples: 4312 | Positives: 339
+  Threshold : 0.80
+  F1        : 0.4745
+  AUC-ROC   : 0.8243
+  Prec(mining): 0.4684
+  Rec (mining): 0.4808
+
+                   precision    recall  f1-score   support
+
+        resto (0)     0.9556    0.9534    0.9545      3973
+ilegal_mining (1)     0.4684    0.4808    0.4745       339
+
+         accuracy                         0.9163      4312
+        macro avg     0.7120    0.7171    0.7145      4312
+     weighted avg     0.9173    0.9163    0.9168      4312
+
+MATO GROSSO
+  Samples: 4311 | Positives: 394
+  Threshold : 0.79
+  F1        : 0.7728
+  AUC-ROC   : 0.9567
+  Prec(mining): 0.7957
+  Rec (mining): 0.7513
+
+                   precision    recall  f1-score   support
+
+        resto (0)     0.9751    0.9806    0.9779      3917
+ilegal_mining (1)     0.7957    0.7513    0.7728       394
+
+         accuracy                         0.9596      4311
+        macro avg     0.8854    0.8659    0.8753      4311
+     weighted avg     0.9587    0.9596    0.9591      4311
+
+RORAIMA
+  Samples: 4234 | Positives: 277
+  Threshold : 0.69
+  F1        : 0.3950
+  AUC-ROC   : 0.8588
+  Prec(mining): 0.3227
+  Rec (mining): 0.5090
+
+                   precision    recall  f1-score   support
+
+        resto (0)     0.9642    0.9252    0.9443      3957
+ilegal_mining (1)     0.3227    0.5090    0.3950       277
+
+         accuracy                         0.8980      4234
+        macro avg     0.6434    0.7171    0.6696      4234
+     weighted avg     0.9222    0.8980    0.9083      4234

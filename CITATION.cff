@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated paper (details withheld for double-blind review)."
+title: "Regional Specificity of SAR-Based Illegal Mining Signatures in the Brazilian Amazon — reproducibility code"
+authors:
+  - name: "Anonymous Author(s)"
+    # Author names and affiliations are withheld for double-blind peer review.
+    # They will be completed in the camera-ready version.
+version: "1.0.0-anon"
+license: MIT
+abstract: >-
+  Code and Google Earth Engine scripts to reproduce the experiments and figures
+  of the paper on attribution of deforestation drivers (illegal mining vs. other)
+  from Sentinel-1 SAR features using a per-state stacking ensemble (SASE) across
+  four Amazonian states: Pará, Mato Grosso, Amazonas and Roraima.
