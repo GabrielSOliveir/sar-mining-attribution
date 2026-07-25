@@ -655,6 +655,7 @@ def run_generalization(df, para_result):
 
         best_t_ext, best_f1_ext = optimize_threshold(y_ext, y_prob_ext)
         auc_ext     = roc_auc_score(y_ext, y_prob_ext)
+        auc_pr_ext  = average_precision_score(y_ext, y_prob_ext)
         y_pred_ext  = (y_prob_ext > best_t_ext).astype(int)
         prec_mining = precision_score(y_ext, y_pred_ext, pos_label=1, zero_division=0)
         rec_mining  = recall_score(y_ext, y_pred_ext, pos_label=1, zero_division=0)
@@ -682,6 +683,7 @@ def run_generalization(df, para_result):
             "threshold":   round(best_t_ext, 2),
             "f1":          round(best_f1_ext, 4),
             "auc":         round(auc_ext, 4),
+            "auc_pr":      round(auc_pr_ext, 4),
             "prec_mining": round(prec_mining, 4),
             "rec_mining":  round(rec_mining, 4),
         })
