@@ -1,14 +1,61 @@
 cff-version: 1.2.0
-message: "If you use this code, please cite the associated paper (details withheld for double-blind review)."
+message: "If you use this code, please cite both this repository and the associated paper."
 title: "Regional Specificity of SAR-Based Illegal Mining Signatures in the Brazilian Amazon — reproducibility code"
-authors:
-  - name: "Anonymous Author(s)"
-    # Author names and affiliations are withheld for double-blind peer review.
-    # They will be completed in the camera-ready version.
-version: "1.0.0-anon"
+type: software
+version: "1.0.0"
 license: MIT
+repository-code: "https://github.com/GabrielSOliveir/sar-mining-attribution"
+authors:
+  - given-names: "Gabriel"
+    family-names: "dos Santos Oliveira"
+    email: "goliveira@ita.br"
+    orcid: "https://orcid.org/0009-0001-2374-4323"
+    affiliation: "Instituto Tecnológico de Aeronáutica (ITA), São José dos Campos, Brazil"
+  - given-names: "Mateus"
+    family-names: "Habermann"
+    affiliation: "Instituto Tecnológico de Aeronáutica (ITA), São José dos Campos, Brazil"
+  - given-names: "Daniel Alberto"
+    family-names: "Pamplona"
+    affiliation: "Instituto Tecnológico de Aeronáutica (ITA), São José dos Campos, Brazil"
+  - given-names: "Tahisa N."
+    family-names: "Kuck"
+    affiliation: "Instituto de Estudos Avançados (IEAv), São José dos Campos, Brazil"
+  - given-names: "Elcio Hideiti"
+    family-names: "Shiguemori"
+    orcid: "https://orcid.org/0000-0001-5226-0435"
+    affiliation: "Instituto de Estudos Avançados (IEAv), São José dos Campos, Brazil"
 abstract: >-
   Code and Google Earth Engine scripts to reproduce the experiments and figures
   of the paper on attribution of deforestation drivers (illegal mining vs. other)
   from Sentinel-1 SAR features using a per-state stacking ensemble (SASE) across
   four Amazonian states: Pará, Mato Grosso, Amazonas and Roraima.
+keywords:
+  - illegal gold mining
+  - deforestation
+  - Amazon
+  - Sentinel-1 SAR
+  - cause attribution
+  - machine learning
+  - spatial generalization
+  - domain shift
+  - remote sensing
+
+# TODO on publication: add doi, volume, issue, start (article number) below.
+preferred-citation:
+  type: article
+  title: "Regional Specificity of SAR-Based Illegal Mining Signatures in Brazilian Amazon: Cause Attribution Framework for Deforestation Alerts"
+  journal: "Remote Sensing"
+  year: 2026
+  authors:
+    - given-names: "Gabriel"
+      family-names: "dos Santos Oliveira"
+      orcid: "https://orcid.org/0009-0001-2374-4323"
+    - given-names: "Mateus"
+      family-names: "Habermann"
+    - given-names: "Daniel Alberto"
+      family-names: "Pamplona"
+    - given-names: "Tahisa N."
+      family-names: "Kuck"
+    - given-names: "Elcio Hideiti"
+      family-names: "Shiguemori"
+      orcid: "https://orcid.org/0000-0001-5226-0435"
