@@ -1,12 +1,13 @@
 # Regional Specificity of SAR-Based Illegal Mining Signatures in the Brazilian Amazon
 
-Reproducibility code and Google Earth Engine scripts for the paper submitted to
-*Remote Sensing* (MDPI).
+Reproducibility code and Google Earth Engine scripts for the paper accepted for
+publication in *Remote Sensing* (MDPI), 2026.
 
-> **Double-blind review.** Author names, affiliations, project ids, and account
-> identifiers have been removed or parameterized. Nothing in this repository
-> should reveal author identity; please open an issue via the editorial system if
-> you find a leak.
+> **How to cite.** Oliveira, G.d.S.; Habermann, M.; Pamplona, D.A.; Kuck, T.N.;
+> Shiguemori, E.H. Regional Specificity of SAR-Based Illegal Mining Signatures in
+> Brazilian Amazon: Cause Attribution Framework for Deforestation Alerts.
+> *Remote Sens.* **2026**. *(DOI added on publication.)*
+> Machine-readable metadata in [`CITATION.cff`](CITATION.cff).
 
 ## What this does
 
@@ -25,23 +26,28 @@ Aggregate test-set metrics over 5 spatial splits (seeds 42–46), spatial block
 resolution 0.2° (~22 km). These match
 [`results/reference_res020/sase_summary.csv`](results/reference_res020/sase_summary.csv).
 
-| State        | F1              | AUC-ROC         | Precision (mining) | Recall (mining) |
-|--------------|-----------------|-----------------|--------------------|-----------------|
-| Pará         | **0.881 ± 0.006** | 0.943 ± 0.004 | 0.899              | 0.864           |
-| Mato Grosso  | **0.742 ± 0.080** | 0.956 ± 0.014 | 0.674              | 0.840           |
-| Amazonas     | **0.520 ± 0.089** | 0.866 ± 0.030 | 0.517              | 0.538           |
-| Roraima      | **0.478 ± 0.091** | 0.904 ± 0.021 | 0.411              | 0.572           |
+| State        | F1                | AUC-ROC       | AUC-PR        | Precision (mining) | Recall (mining) |
+|--------------|-------------------|---------------|---------------|--------------------|-----------------|
+| Pará         | **0.881 ± 0.006** | 0.943 ± 0.004 | 0.942 ± 0.004 | 0.899              | 0.864           |
+| Mato Grosso  | **0.742 ± 0.080** | 0.956 ± 0.014 | 0.815 ± 0.082 | 0.674              | 0.840           |
+| Amazonas     | **0.520 ± 0.089** | 0.866 ± 0.030 | 0.569 ± 0.075 | 0.517              | 0.538           |
+| Roraima      | **0.478 ± 0.091** | 0.904 ± 0.021 | 0.506 ± 0.097 | 0.411              | 0.572           |
+
+AUC-PR is the paper's primary threshold-independent metric *within* a state (it is
+sensitive to minority-class prevalence); AUC-ROC is used for comparisons *across*
+states, where prevalence differs from ~1:1 (Pará) to ~1:14 (Roraima).
 
 ## Repository layout
 
 ```
 .
 ├── config.py                 # portable path / GEE config (env-var driven; no hard-coded paths)
-├── requirements.txt          # pip dependencies (Python 3.12)
+├── requirements.txt          # pinned pip dependencies (verified on CPython 3.9.6)
 ├── environment.yml           # conda alternative (bundles libomp for XGBoost)
 ├── data/
-│   ├── README.md             # how to obtain / regenerate the input dataset
-│   └── *.csv                 # small reference tables (large input is gitignored)
+│   ├── README.md             # dataset description / how to regenerate it
+│   ├── dados_concatenados.csv.zip  # the model input (~49 MB, read directly)
+│   └── *.csv                 # small reference tables
 ├── gee/                      # Google Earth Engine feature-extraction pipeline
 │   ├── README.md
 │   ├── 01_explore_and_sample.py
@@ -73,9 +79,10 @@ pip install -r requirements.txt
 #   export DYLD_FALLBACK_LIBRARY_PATH=$(python -c "import sklearn,os;print(os.path.join(os.path.dirname(sklearn.__file__),'.dylibs'))")
 # (or use conda:  conda env create -f environment.yml && conda activate sar-mining)
 
-# 2) Get the input data (~135 MB) — see data/README.md
-#    Option A: download data/dados_concatenados.csv from the paper's data archive
-#    Option B: regenerate it via the gee/ pipeline (needs an Earth Engine account)
+# 2) Input data — nothing to do. data/dados_concatenados.csv.zip (~49 MB) ships
+#    with the repository and every script reads it directly (pandas decompresses
+#    on the fly). See data/README.md to regenerate it from scratch instead, via
+#    the gee/ pipeline (needs an Earth Engine account).
 
 # 3) Reproduce the headline results + per-state figures
 python src/sase_spatial.py
@@ -133,6 +140,5 @@ narrative and [`gee/README.md`](gee/README.md) for the data-generation pipeline.
 
 ## License
 
-Code released under the [MIT License](LICENSE) (copyright withheld for
-double-blind review). Input alert data is © MapBiomas, distributed under its own
-terms via the MapBiomas Alerta platform.
+Code released under the [MIT License](LICENSE). Input alert data is © MapBiomas,
+distributed under its own terms via the MapBiomas Alerta platform.
