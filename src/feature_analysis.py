@@ -31,6 +31,9 @@ from config import DATA_CSV, RESULTS_DIR
 
 warnings.filterwarnings('ignore')
 
+# MDPI proof (Fig. 5/6): render the axis offset as x10^n (mathtext), not '1e7'.
+plt.rcParams['axes.formatter.use_mathtext'] = True
+
 STATE_COL  = "ESTADO"
 LABEL_COL  = "VPRESSAO"
 CLASS_POS  = "ilegal_mining"
@@ -138,7 +141,9 @@ def plot_hist_grid(df_state, features, state_label, state_safe, deltas, output_d
             ax.axvline(vals_pos.mean(), color="darkorange", linestyle="--", lw=1.2)
         d = deltas.get(feat, np.nan)
         if not np.isnan(d):
-            ax.text(0.97, 0.95, f"δ = {d:.2f} ({delta_magnitude(d)})",
+            ax.text(0.97, 0.95,
+                    # MDPI proof (Fig. 5): ASCII hyphen -> minus sign (U+2212)
+                    f"δ = {d:.2f} ({delta_magnitude(d)})".replace("-", "\u2212"),
                     transform=ax.transAxes, ha="right", va="top", fontsize=7.5,
                     bbox=dict(boxstyle="round,pad=0.2", fc="white", ec="gray", alpha=0.7))
         ax.set_title(feat, fontsize=8)
