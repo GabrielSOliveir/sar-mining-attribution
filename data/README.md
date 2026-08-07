@@ -24,9 +24,10 @@ of these ways:
 it up automatically. To materialize the raw CSV (slightly faster reads):
 `unzip data/dados_concatenados.csv.zip -d data/`.
 
-### Option A′ — download from the data archive
-A copy of `dados_concatenados.csv` will also be published in the paper's data
-archive (DOI to be added on acceptance — placeholder: `https://doi.org/<TBD>`).
+### Option A′ — download from this repository
+The same zipped file can be downloaded directly from the repository page
+(<https://github.com/GabrielSOliveir/sar-mining-attribution/blob/main/data/dados_concatenados.csv.zip>)
+without cloning.
 
 ### Option B — regenerate it from scratch on Google Earth Engine
 Run the four scripts in [`../gee/`](../gee) — see [`../gee/README.md`](../gee/README.md).
