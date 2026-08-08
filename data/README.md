@@ -51,5 +51,8 @@ These are small derived tables kept in the repo for convenience:
 
 - `feature_separability.csv` — per-state Cliff's Delta separability (also produced
   by `src/feature_analysis.py`).
+- `driver_labels.csv` — `CODEALERTA` -> `VPRESSAO_original`, the MapBiomas Alerta
+  driver label *before* it is binarized into `ilegal_mining` / `resto`. Used by
+  `figures/figure2_map.py` to colour the map by driver.
 - `morphometry_by_state.csv`, `resto_composition_by_state.csv`,
   `vpressao_por_estado_amazonia.csv` — class-composition / polygon-size summaries.
