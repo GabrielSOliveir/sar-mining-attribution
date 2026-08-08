@@ -7,6 +7,7 @@ data/*.csv
 !data/morphometry_by_state.csv
 !data/resto_composition_by_state.csv
 !data/vpressao_por_estado_amazonia.csv
+!data/driver_labels.csv
 data/_morphometry_raw.csv
 data/dados_completos*.csv
 # (the zipped dataset IS tracked: data/dados_concatenados.csv.zip)
