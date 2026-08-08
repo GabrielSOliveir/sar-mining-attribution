@@ -1,122 +1,132 @@
 """
-Figure 2 — publication map of the validated alert polygons across the four study
-states (two stacked panels: all validated alerts; illegal mining only).
+Figure 2 — spatial distribution of the validated deforestation alerts used in the study.
 
-Reads config.DATA_CSV (uses the .geo and VPRESSAO columns) and writes
-figura2_mapa.{pdf,png} to config.FIGURES_DIR (override with --output-dir).
+Panel (a) shows every alert of the modeling dataset coloured by its original
+MapBiomas Alerta driver label; panel (b) shows the illegal-mining alerts alone.
 
-Note: downloads Brazilian state boundaries via `geobr` (needs internet on first run).
+NOTE ON PROVENANCE. The script that produced the figure printed in the paper was
+not preserved. This is a reconstruction from the same inputs: it reproduces the
+per-class counts exactly (agriculture 18,348; other 45; illegal mining 7,730) and
+the same spatial content, but the framing, legend box and marker rendering differ
+slightly from the printed version.
+
+Inputs
+  data/dados_concatenados.csv[.zip]  polygon geometry (.geo) and state (ESTADO)
+  data/driver_labels.csv             CODEALERTA -> VPRESSAO_original, i.e. the
+                                     driver label before binarization into
+                                     ilegal_mining / resto
+  IBGE state boundaries via geobr (downloaded on first run)
 
 Usage
------
-  python figures/figure2_map.py
+  python figures/figure2_map.py          # writes FIGURES_DIR/figure2_map.{png,pdf}
 """
-
-import argparse
 import json
 import os
-import sys
-import warnings
-from pathlib import Path
 
+import geobr
 import geopandas as gpd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import pandas as pd
 from matplotlib.lines import Line2D
-from matplotlib_scalebar.scalebar import ScaleBar
 from shapely.geometry import shape
-import geobr
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from config import DATA_CSV, FIGURES_DIR
+from config import DATA_DIR, FIGURES_DIR
 
-warnings.filterwarnings("ignore")
-
-CRS_M = 5880  # SIRGAS 2000 / Brazil Polyconic (metric)
 STUDY = {"PA": "Pará", "AM": "Amazonas", "MT": "Mato Grosso", "RR": "Roraima"}
+
+AGRI = ("#3b76af", "o", "Agriculture")
+OTHER = ("#2ca02c", "^", "Other (urban/roads/natural/aquac.)")
+MINING = ("#d62728", "o", "Illegal mining")
+
+
+def load_alerts():
+    """Modeling dataset joined with the pre-binarization driver label."""
+    src = os.path.join(DATA_DIR, "dados_concatenados.csv")
+    if not os.path.exists(src):
+        src += ".zip"
+    df = pd.read_csv(src, usecols=["CODEALERTA", "ESTADO", ".geo"])
+    labels = pd.read_csv(os.path.join(DATA_DIR, "driver_labels.csv"))
+    df = df.merge(labels, on="CODEALERTA", how="left", validate="one_to_one")
+    missing = df.VPRESSAO_original.isna().sum()
+    if missing:
+        raise SystemExit(f"{missing} alerts have no driver label")
+
+    geom = gpd.GeoSeries([shape(json.loads(g)) for g in df[".geo"]], crs="EPSG:4326")
+    # centroids are computed in an equal-area CRS, then taken back to lon/lat
+    pts = geom.to_crs("EPSG:5880").centroid.to_crs("EPSG:4326")
+    return gpd.GeoDataFrame(df.drop(columns=[".geo"]), geometry=pts, crs="EPSG:4326")
 
 
 def north_arrow(ax):
-    ax.annotate("N", xy=(0.06, 0.97), xytext=(0.06, 0.86),
-                xycoords="axes fraction",
-                arrowprops=dict(facecolor="black", width=4, headwidth=12),
-                ha="center", va="center", fontsize=12, fontweight="bold")
+    ax.annotate("N", xy=(0.055, 0.955), xytext=(0.055, 0.845),
+                xycoords="axes fraction", ha="center", va="center",
+                fontsize=13, fontweight="bold",
+                arrowprops=dict(facecolor="black", edgecolor="black",
+                                width=5, headwidth=14, headlength=12))
 
 
-def draw_panel(ax, pts, states, study, xlim, ylim, color, label, title):
-    states.plot(ax=ax, facecolor="#f5f5f5", edgecolor="#bdbdbd", linewidth=0.4)
-    study.plot(ax=ax, facecolor="none", edgecolor="#333333", linewidth=1.1)
-    pts.plot(ax=ax, color=color, markersize=1.2, alpha=0.45, linewidth=0)
+def draw_panel(ax, df, states, study, xlim, ylim, layers, title, legend):
+    states.plot(ax=ax, facecolor="#f7f7f7", edgecolor="#c8c8c8", linewidth=0.5)
+    study.plot(ax=ax, facecolor="#f2f2f2", edgecolor="#1a1a1a", linewidth=1.3)
+    for mask, (colour, marker, _) in layers:
+        df[mask].plot(ax=ax, color=colour, marker=marker, markersize=1.6,
+                      alpha=0.55, linewidth=0)
     for _, r in study.iterrows():
         c = r.geometry.representative_point()
-        ax.annotate(STUDY[r["abbrev_state"]], (c.x, c.y), ha="center", va="center",
-                    fontsize=8, fontweight="bold", color="#222222")
-    ax.set_xlim(*xlim); ax.set_ylim(*ylim)
+        ax.annotate(STUDY[r.abbrev_state], (c.x, c.y), ha="center", va="center",
+                    fontsize=9, fontweight="bold", color="#1a1a1a")
+    ax.set_xlim(*xlim)
+    ax.set_ylim(*ylim)
     ax.set_axis_off()
-    ax.set_title(title, fontsize=10, loc="left", fontweight="bold")
-    ax.add_artist(ScaleBar(1, units="m", location="lower right",
-                           box_alpha=0.7, length_fraction=0.25,
-                           font_properties={"size": 7}))
+    ax.set_title(title, fontsize=11, pad=10)
     north_arrow(ax)
-    leg = [Line2D([0], [0], marker="o", color="none", markerfacecolor=color,
-                  markersize=6, alpha=0.8, label=label)]
-    ax.legend(handles=leg, loc="lower left", fontsize=8, framealpha=0.8)
+    if legend:
+        handles = [Line2D([0], [0], marker=m, color="none", markerfacecolor=c,
+                          markeredgecolor="black", markeredgewidth=0.8,
+                          markersize=9, label=f"{lab}  (n={n})")
+                   for (c, m, lab), n in legend]
+        ax.legend(handles=handles, loc="lower left", fontsize=9,
+                  framealpha=0.95, edgecolor="#999999", borderpad=0.7,
+                  labelspacing=0.6, handletextpad=0.6)
+
+
+def thousands(n):
+    """MDPI style: a thousands separator only from five digits upwards."""
+    return f"{n:,}" if n >= 10000 else str(n)
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--data", default=str(DATA_CSV))
-    ap.add_argument("--output-dir", default=str(FIGURES_DIR))
-    args = ap.parse_args()
+    df = load_alerts()
+    is_agri = df.VPRESSAO_original == "agriculture"
+    is_min = df.VPRESSAO_original == "ilegal_mining"
+    is_other = ~is_agri & ~is_min
+    print(f"agriculture={is_agri.sum()}  other={is_other.sum()}  "
+          f"illegal_mining={is_min.sum()}")
 
-    if not os.path.exists(args.data):
-        raise SystemExit(f"Input file not found: {args.data}\nSee data/README.md.")
-    os.makedirs(args.output_dir, exist_ok=True)
+    states = geobr.read_state(year=2020)
+    study = states[states.abbrev_state.isin(STUDY)]
+    xmin, ymin, xmax, ymax = study.total_bounds
+    padx, pady = 0.06 * (xmax - xmin), 0.06 * (ymax - ymin)
+    xlim, ylim = (xmin - padx, xmax + padx), (ymin - pady, ymax + pady)
 
-    print("1) Loading CSV and building geometries ...")
-    df = gpd.pd.read_csv(args.data)
-    geoms, bad = [], 0
-    for raw in df[".geo"]:
-        try:
-            geoms.append(shape(json.loads(raw)))
-        except Exception:
-            geoms.append(None); bad += 1
-    gdf = gpd.GeoDataFrame(df.copy(), geometry=geoms, crs="EPSG:4326")
-    gdf = gdf[gdf.geometry.notna()].copy()
-    print(f"   polygons: {len(gdf)}  | invalid geometries: {bad}")
-
-    gdf_m = gdf.to_crs(epsg=CRS_M)
-    gdf_m["geometry"] = gdf_m.geometry.centroid
-
-    print("2) Downloading state boundaries (geobr) ...")
-    states = geobr.read_state(year=2020).to_crs(epsg=CRS_M)
-    study = states[states["abbrev_state"].isin(STUDY.keys())].copy()
-
-    minx, miny, maxx, maxy = study.total_bounds
-    mx, my = (maxx - minx) * 0.04, (maxy - miny) * 0.04
-    xlim = (minx - mx, maxx + mx)
-    ylim = (miny - my, maxy + my)
-
-    pts_all = gdf_m
-    pts_min = gdf_m[gdf_m["VPRESSAO"] == "ilegal_mining"]
-    print(f"   points: all={len(pts_all)} | illegal_mining={len(pts_min)}")
-
-    print("3) Rendering figure ...")
-    w_in = 16.0 / 2.54
-    fig, axes = plt.subplots(2, 1, figsize=(w_in, w_in * 1.25))
-    draw_panel(axes[0], pts_all, states, study, xlim, ylim, "#d62728",
-               "Validated alerts (illegal mining + other)", "(a) All validated alerts")
-    draw_panel(axes[1], pts_min, states, study, xlim, ylim, "#1f77b4",
-               "Illegal mining", "(b) Illegal mining only")
+    fig, axes = plt.subplots(1, 2, figsize=(11.9, 5.26))
+    draw_panel(axes[0], df, states, study, xlim, ylim,
+               [(is_agri, AGRI), (is_other, OTHER), (is_min, MINING)],
+               "(a) Validated alerts by driver",
+               [(AGRI, thousands(is_agri.sum())),
+                (OTHER, thousands(is_other.sum())),
+                (MINING, thousands(is_min.sum()))])
+    draw_panel(axes[1], df, states, study, xlim, ylim,
+               [(is_min, MINING)], "(b) Illegal-mining alerts only", None)
     plt.tight_layout()
 
-    pdf = os.path.join(args.output_dir, "figura2_mapa.pdf")
-    png = os.path.join(args.output_dir, "figura2_mapa.png")
-    fig.savefig(pdf, dpi=300, bbox_inches="tight")
-    fig.savefig(png, dpi=300, bbox_inches="tight")
-    plt.close(fig)
-    print(f"\n✅ Saved: {pdf}\n         {png}")
+    os.makedirs(FIGURES_DIR, exist_ok=True)
+    for ext in ("png", "pdf"):
+        out = os.path.join(FIGURES_DIR, f"figure2_map.{ext}")
+        fig.savefig(out, dpi=300, bbox_inches="tight")
+        print("saved:", out)
 
 
 if __name__ == "__main__":
